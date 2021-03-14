@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment-ns
+  namespace: test-ocp4-new-workers
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: label-nfs-server-provisioner
+  template:
+    metadata:
+      labels:
+        app: label-nfs-server-provisioner
+    spec:
+      volumes:
+      - name: nfs-test
+        persistentVolumeClaim:
+          claimName: nfs-pvc # same name of pvc that was created
+      containers:
+      - name: nginx
+        image: bitnami/nginx:latest
+        volumeMounts:
+        - name: nfs-test # name of volume should match claimName volume
+          mountPath: /usr/share/nginx/html # mount inside of contianer

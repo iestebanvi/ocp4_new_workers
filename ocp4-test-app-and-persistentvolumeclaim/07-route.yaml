@@ -1,0 +1,16 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: label-nfs-server-provisioner
+  name: service-nginx
+  namespace: nfs-server-provisioner
+spec:
+  host: test-ocp4-http.apps.ocp4poc.example.com
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: service-nginx
+    weight: 100
+  wildcardPolicy: None
